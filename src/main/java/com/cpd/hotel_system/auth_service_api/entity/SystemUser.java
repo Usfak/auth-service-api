@@ -59,6 +59,6 @@ public class SystemUser {
     @OneToOne(mappedBy = "systemUser", cascade = CascadeType.ALL)
     private Otp otp;
 
-    @OneToOne(mappedBy = "systemUser", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    private SystemAvatar systemAvatar;
+//    @OneToOne(mappedBy = "systemUser", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+//  private SystemAvatar systemAvatar;
 }

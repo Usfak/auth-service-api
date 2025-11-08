@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.CONFLICT)
 public class DuplicateEntryException extends RuntimeException{
-    public DuplicateEntryException(String message){
+    public DuplicateEntryException(String message)
+    {
         super(message);
     }
 }
