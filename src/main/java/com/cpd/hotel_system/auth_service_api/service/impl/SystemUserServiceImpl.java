@@ -5,6 +5,8 @@ import com.cpd.hotel_system.auth_service_api.config.KeycloakSecurityUtil;
 import com.cpd.hotel_system.auth_service_api.dto.request.PasswordRequestDto;
 import com.cpd.hotel_system.auth_service_api.dto.request.RequestLoginDto;
 import com.cpd.hotel_system.auth_service_api.dto.request.SystemUserRequestDto;
+import com.cpd.hotel_system.auth_service_api.dto.request.UserUpdateRequestDto;
+import com.cpd.hotel_system.auth_service_api.dto.response.ResponseUserDetailsDto;
 import com.cpd.hotel_system.auth_service_api.entity.Otp;
 import com.cpd.hotel_system.auth_service_api.entity.SystemUser;
 import com.cpd.hotel_system.auth_service_api.exception.DuplicateEntryException;
@@ -139,6 +141,23 @@ public class SystemUserServiceImpl implements SystemUserService {
 
         }
 
+    }
+
+    private UserRepresentation mapUserRepo(SystemUserRequestDto dto, boolean isEmailVerified, boolean isEnabled) {
+        UserRepresentation user = new UserRepresentation();
+        user.setEmail(dto.getEmail());
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+        user.setUsername(dto.getEmail());
+        user.setEnabled(isEnabled);
+        user.setEmailVerified(isEmailVerified);
+        List<CredentialRepresentation> credList = new ArrayList<>();
+        CredentialRepresentation cred = new CredentialRepresentation();
+        cred.setTemporary(false);
+        cred.setValue(dto.getPassword());
+        credList.add(cred);
+        user.setCredentials(credList);
+        return user;
     }
 
     @Override
@@ -433,21 +452,33 @@ public class SystemUserServiceImpl implements SystemUserService {
         return response.getBody();
     }
 
-    private UserRepresentation mapUserRepo(SystemUserRequestDto dto, boolean isEmailVerified, boolean isEnabled) {
-        UserRepresentation user = new UserRepresentation();
-        user.setEmail(dto.getEmail());
-        user.setFirstName(dto.getFirstName());
-        user.setLastName(dto.getLastName());
-        user.setUsername(dto.getEmail());
-        user.setEnabled(isEnabled);
-        user.setEmailVerified(isEmailVerified);
-        List<CredentialRepresentation> credList = new ArrayList<>();
-        CredentialRepresentation cred = new CredentialRepresentation();
-        cred.setTemporary(false);
-        cred.setValue(dto.getPassword());
-        credList.add(cred);
-        user.setCredentials(credList);
-        return user;
-    }
+//    @Override
+//    public ResponseUserDetailsDto getUserDetails(String email) {
+//        Optional<SystemUser> byEmail = systemUserRepo.findByEmail(email);
+//        if (byEmail.isEmpty()) {
+//            throw new EntryNotFoundException("User was not found");
+//        }
+//
+//        SystemAvatar systemUserAvatar = byEmail.get().getSystemAvatar();
+//
+//        return ResponseUserDetailsDto.builder()
+//                .email(byEmail.get().getEmail())
+//                .firstName(byEmail.get().getFirstName())
+//                .lastName(byEmail.get().getLastName())
+//                .resourceUrl(systemUserAvatar != null ? fileDataExtractor.byteArrayToString(systemUserAvatar.getResourceUrl()) : null)
+//                .build();
+//    }
+
+//    @Override
+//    public void updateUserDetails(String email, UserUpdateRequestDto data) {
+//        Optional<SystemUser> byEmail = systemUserRepo.findByEmail(email);
+//        if (byEmail.isEmpty()) {
+//            throw new EntryNotFoundException("User was not found");
+//        }
+//
+//        byEmail.get().setFirstName(data.getFirstname());
+//        byEmail.get().setLastName(data.getLastName());
+//        systemUserRepo.save(byEmail.get());
+//    }
 
 }

@@ -3,9 +3,9 @@ package com.cpd.hotel_system.auth_service_api.service;
 import com.cpd.hotel_system.auth_service_api.dto.request.PasswordRequestDto;
 import com.cpd.hotel_system.auth_service_api.dto.request.RequestLoginDto;
 import com.cpd.hotel_system.auth_service_api.dto.request.SystemUserRequestDto;
+import com.cpd.hotel_system.auth_service_api.dto.request.UserUpdateRequestDto;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public interface SystemUserService {
@@ -17,5 +17,6 @@ public interface SystemUserService {
     public boolean passwordReset(PasswordRequestDto dto);
     public boolean verifyEmail(String otp, String email);
     public Object userLogin(RequestLoginDto dto);
-
+//    public ResponseUserDetailsDto getUserDetails(String email);
+//    public void updateUserDetails(String email, UserUpdateRequestDto data);
 }
